@@ -1,0 +1,13 @@
+.header-container {
+	height: 50px;
+}
+
+.header-container .logo {
+	width: 80px;
+	height: 100%;
+}
+
+.header-container h1 {
+	color: #1C4B81;
+	font-size: 20px;
+}

@@ -1,0 +1,6 @@
+.messages-container {
+	/*border: 1px solid #ccc;*/
+	background-color: white;
+	height: 70vh;
+	overflow: scroll;
+}
