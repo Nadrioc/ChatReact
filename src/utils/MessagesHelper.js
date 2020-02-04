@@ -11,15 +11,13 @@ export const deDuplicateMessages = (messages) => {
  	return uniqueMessages
 }
 
-export const sortMessagesTemp = (messages, order) => {
+export const sortMessages = (messages, order) => {
 	let sortedMessages
 	if(order === 'newest'){
-		console.log("Newest Selected")
   		sortedMessages = messages.sort((a, b) => {
   		return new Date(a.sentAt) - new Date(b.sentAt)
 		});
 	} else if(order === 'oldest'){
-		console.log("Oldest Selected")
   		sortedMessages = messages.sort((a, b) => {
   		return new Date(b.sentAt) - new Date(a.sentAt) 
 		});
@@ -27,7 +25,19 @@ export const sortMessagesTemp = (messages, order) => {
 	return sortedMessages
 }
 
-export const deleteMessage = (uniqueKey) => {
-	const messageList = this.state.messages.filter((x) => x.uniqueKey !== uniqueKey)
-	return messageList
+export const deleteMessage = (messageList, uniqueKey) => {
+	return  messageList.filter((x) => x.uniqueKey !== uniqueKey)
+}
+
+
+export const appendAndReverseMessageList = (messageList, nextStartingIndex) => {
+	let reversedMessages = [...messageList]
+	reversedMessages.reverse()
+	return reversedMessages.slice(0, nextStartingIndex).reverse()
+}
+
+export const sortAndDeduplicateMessages = (messages, order) => {
+	const uniqueMessages = deDuplicateMessages(messages);
+	const sortedMessages = sortMessages(uniqueMessages, order)
+	return sortedMessages
 }

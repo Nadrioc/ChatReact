@@ -1,43 +1,16 @@
 import React, {Fragment, Component} from 'react';
-import './Message.css'
-import cross from '../../assets/images/Delete.svg'
-
-const convertHourAndMeridiem = (hour, minutes) => {
-	if(hour > 12){
-		hour = hour - 12
-		return `${hour}:${minutes} PM`
-	} 
-	return `${hour}:${minutes} AM`
-}
-
-const convertMinutes = (minutes) => {
-	if(minutes < 10){
-		minutes = "0" + minutes
-	}
-	return minutes
-}
-
-const convertStringToDateTime = (sentAt) => {
-	const messageDate = new Date(sentAt)
-	const hour = messageDate.getHours()
-	let minutes = messageDate.getMinutes()
-	const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-	let formattedDay = messageDate.toLocaleDateString("en-US", options)
-
-	minutes = convertMinutes(minutes)
-	const messageTime = convertHourAndMeridiem(hour, minutes) ;
-
-	return {date: messageDate, time: messageTime, hour: hour, minutes: minutes, formattedDay: formattedDay}
-}
+import './Message.css';
+import * as dateHelper from '../../utils/DateHelper';
+import cross from '../../assets/images/Delete.svg';
 
 export class Message extends Component {
 
 	state = {
-		messageDate: convertStringToDateTime(this.props.message.sentAt),
+		messageDate: dateHelper.convertSentAtToDateTimeObject(this.props.message.sentAt),
 		hovering: false
 	}
 
-	hidden = {}
+	hoverStyle = {}
 
 	toggleHover = (status) => {
 		let newHoverStatus = this.state.hovering
@@ -48,18 +21,16 @@ export class Message extends Component {
 			newHoverStatus = false
 			this.setState({hovering: newHoverStatus})
 		}
-		
 	}	
-
-
+	
 	render(){
 
 		if(!this.state.hovering){
-			this.hidden = {
+			this.hoverStyle = {
 				'display': 'none'
 			} 
 		} else {
-			this.hidden = {
+			this.hoverStyle = {
 				'display': 'block'
 			} 
 		}
@@ -74,24 +45,21 @@ export class Message extends Component {
 		}
 	}
 
-    					// 
-
 	 return (
   	<Fragment>
   		<div id={this.props.id} className="message-container" onMouseOver={() => this.toggleHover('show')} onMouseLeave={() => this.toggleHover('hide')}>
 	    	{messageLayout()}
 	    	<div className="message-container-center">
 	    		<div className="flex center-align-items">
-	    			<img className="avatar" src={`https://api.adorable.io/avatars/262/${this.props.message.uuid}`}/>
+	    			<img alt="User Avatar" className="avatar" src={`https://api.adorable.io/avatars/262/${this.props.message.uuid}`}/>
 	    			<h1>{this.props.message.uuid}</h1>
 	      		<p style={{'fontWeight': '300', 'fontSize': '13px'}}>{this.state.messageDate.time}</p>
 	    		</div>
 	      	<p>{this.props.message.content}</p>
-	      	<div onClick={() => this.props.deleting(this.props.uniqueKey)} className="delete-button" style={this.hidden}>
-	      		<img src={cross} />
+	      	<div onClick={() => this.props.deleting(this.props.uniqueKey)} className="delete-button" style={this.hoverStyle}>
+	      		<img alt="Delete Button" src={cross} />
   				</div>
 	    	</div>
-	    	
 	    </div>
     </Fragment>
   );

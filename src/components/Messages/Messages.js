@@ -1,33 +1,16 @@
 import React, {Component} from 'react';
 import {Message} from '../Message/Message'
+import * as dateHelper from '../../utils/DateHelper'
+import * as scrollHelper from '../../utils/ScrollHelper'
 import './Messages.css'
 
 export class Messages extends Component{
 
-	lastMessage = this.props.messages[0]
-	lastDate = new Date(this.lastMessage.sentAt)
-
 	state ={
 		lastTopElementId: null,
-		scrollElement: null
 	}
 
-	isOnSameDay = (currentDate) => {
-		if(this.lastDate.getDate() === currentDate.getDate() 
-			&& this.lastDate.getMonth() === currentDate.getMonth() 
-			&& this.lastDate.getFullYear() === currentDate.getFullYear()){
-			return false
-		} else {
-			return true
-		}
-	}
-
-	componentDidMount = () => {
-		const listElement = document.querySelector("#message-list")
-		let topElement = this.props.messages[0]
- 		let newLastTopElementId = 'a' + topElement.uuid + topElement.content
-		this.setState({scrollElement: listElement, lastTopElementId: newLastTopElementId})
-		listElement.scroll(0, 100000000)
+	addInfiniteScrollEventListener = (listElement) => {
 		listElement.addEventListener("scroll", () => {
 			if(listElement.scrollTop === 0){
 				this.props.scrolledToEnd()
@@ -35,48 +18,60 @@ export class Messages extends Component{
 		})
 	}
 
-	componentDidUpdate = (prevProps) => {
-		if(prevProps !== this.props){
-			const myElement = document.querySelector(`#${this.state.lastTopElementId}`)
-			if(prevProps.messages.length < this.props.messages.length){
-				console.log("SCROLLING")
-				if(myElement){
-					myElement.scrollIntoView(true)
-					let topElement = this.props.messages[0]
-		 			let newLastTopElementId = 'a' + topElement.uuid + topElement.content
-		 			if(this.state.lastTopElementId !== newLastTopElementId){
-		 				console.log("UPDATING STATE")
-						this.setState({lastTopElementId: newLastTopElementId})
-		 			}
-				}
-			} else {
-				console.log("SOMETHING GOT DELETED")
-				let topElement = this.props.messages[0]
-	 			let newLastTopElementId = 'a' + topElement.uuid + topElement.content
-	 			if(this.state.lastTopElementId !== newLastTopElementId){
-	 				this.setState({lastTopElementId: newLastTopElementId})
-	 			}
-			}
-			console.log("previous", prevProps.messages.length)
-			console.log("current", this.props.messages.length)
+	setNewTopElementIdState = () => {
+		const newTopElementId = scrollHelper.findNewTopElementID(this.props.messages[0])
+		if(this.state.lastTopElementId !== newTopElementId){
+			this.setState({lastTopElementId: newTopElementId})
 		}
-		
+	}
+
+	handleInfiniteScrolling = (prevProps) => {
+		const hasInfiniteScrollingOccured = prevProps.messages.length < this.props.messages.length
+		if(hasInfiniteScrollingOccured){
+			scrollHelper.adjustScrollPositionToPreviousTopMessage(this.state.lastTopElementId)
+			this.setNewTopElementIdState()
+		} else {
+			this.setNewTopElementIdState()
+		}
+	}
+
+	componentDidMount = () => {
+		const listElement = document.querySelector("#message-list")
+		this.setNewTopElementIdState()
+		scrollHelper.scrollElementToBottom(listElement)
+		this.addInfiniteScrollEventListener(listElement)
+	}
+
+	componentDidUpdate = (prevProps) => {
+		if(prevProps.order !== this.props.order){
+			const listElement = document.querySelector("#message-list")
+			scrollHelper.scrollElementToBottom(listElement)
+		}
+		if(prevProps !== this.props){
+			this.handleInfiniteScrolling(prevProps)
+		}
 	}
 
  	render(){
  		
+ 	  let lastDate = new Date(this.props.messages[0].sentAt)
+
  		let messageList = this.props.messages.map((message, index) => {
 	 		const currentDate = new Date(message.sentAt)
-	 		let dayChangeStatus = "false"
-	 		if(this.isOnSameDay(currentDate) || index === 0){
-	 			dayChangeStatus = "true"
-	 		} 
-	 		this.lastDate = new Date(message.sentAt)
-	 		return <Message key={message.uniqueKey} id={'a' + message.uuid + message.content} deleting={this.props.deleting} uniqueKey={message.uniqueKey} message={message} dayChange={dayChangeStatus}/>
+	 		const dayChangeStatus = dateHelper.doesMessageComponentNeedADayChange(currentDate, index, lastDate)
+	 		lastDate = currentDate
+
+	 		return (
+	 				<Message 
+	 					key={message.uniqueKey} 
+	 					id={'a' + message.uniqueKey} 
+	 					deleting={this.props.deleting} 
+	 					uniqueKey={message.uniqueKey} 
+	 					message={message} 
+	 					dayChange={dayChangeStatus}/>
+	 			)
  		})
 	
-
-
 		return (
 	    <div className="main-container">
 	      <h1 className="messages-header">Your Messages:</h1>

@@ -1,13 +1,12 @@
 .sorter {
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-	margin-right: 50px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 50px;
 
 }
 
 .sorter h3{
-	/*margin-right: 15px;*/
     font-weight: 300;
     font-size: 1rem;
 }
