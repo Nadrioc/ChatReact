@@ -1,6 +1,13 @@
 .messages-container {
-	/*border: 1px solid #ccc;*/
-	background-color: white;
 	height: 70vh;
 	overflow: scroll;
+}
+
+.messages-header {
+	font-weight: 500;
+}
+
+.main-container {
+	margin-left: 5vw;
+	width: 90vw;
 }

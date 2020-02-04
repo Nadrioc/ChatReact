@@ -78,8 +78,8 @@ export class Messages extends Component{
 
 
 		return (
-	    <div>
-	      <h1>Your Messages:</h1>
+	    <div className="main-container">
+	      <h1 className="messages-header">Your Messages:</h1>
 	      <div id="message-list" className="messages-container">{messageList}</div>
 	    </div>
 	  );

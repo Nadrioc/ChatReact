@@ -1,6 +1,6 @@
 import React, {Fragment, Component} from 'react';
 import './Message.css'
-
+import cross from '../../assets/images/Delete.svg'
 
 const convertHourAndMeridiem = (hour, minutes) => {
 	if(hour > 12){
@@ -67,37 +67,31 @@ export class Message extends Component {
 		let messageLayout = () => {
 		if(this.props.dayChange === 'true'){
 			return (
-			 	<Fragment>
-					<div className="date-container">{this.state.messageDate.formattedDay}</div>
-		    	<div className="message-container-center">
-		    		<div className="flex space-between center-align-items">
-		    			<h1>{this.props.message.uuid}</h1>
-		      		<p>{this.state.messageDate.time}</p>
-		    		</div>
-		      	<p>{this.props.message.content}</p>
-		    	</div>
-		    </Fragment>
-		   )
+				<div className="date-container">
+					<h3>{this.state.messageDate.formattedDay}</h3>
+					<hr className="dotted-line"></hr>
+				</div>)			   
 		}
-		return (
-
-	    	<div className="message-container-center">
-	    		<div className="flex space-between center-align-items">
-	    			<h1>{this.props.message.uuid}</h1>
-	      		<p>{this.state.messageDate.time}</p>
-	    		</div>
-	      	<p>{this.props.message.content}</p>
-	    	</div>
-	   )
 	}
+
+    					// 
 
 	 return (
   	<Fragment>
   		<div id={this.props.id} className="message-container" onMouseOver={() => this.toggleHover('show')} onMouseLeave={() => this.toggleHover('hide')}>
 	    	{messageLayout()}
-	    	<div className="delete-button-container">
-	    		<div onClick={() => this.props.deleting(this.props.uniqueKey)} className="delete-button" style={this.hidden}>X</div>
+	    	<div className="message-container-center">
+	    		<div className="flex center-align-items">
+	    			<img className="avatar" src={`https://api.adorable.io/avatars/262/${this.props.message.uuid}`}/>
+	    			<h1>{this.props.message.uuid}</h1>
+	      		<p style={{'fontWeight': '300', 'fontSize': '13px'}}>{this.state.messageDate.time}</p>
+	    		</div>
+	      	<p>{this.props.message.content}</p>
+	      	<div onClick={() => this.props.deleting(this.props.uniqueKey)} className="delete-button" style={this.hidden}>
+	      		<img src={cross} />
+  				</div>
 	    	</div>
+	    	
 	    </div>
     </Fragment>
   );

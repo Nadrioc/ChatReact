@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {Messages} from '../Messages/Messages'
 import {Sorter} from '../Sorter/Sorter'
 import {messages} from '../../data/data.json'
+// import * as h from '../../utils/MessagesHelper'
 
 const deDuplicateMessages = (messages) => {
 	let hashOfUniques = {}
@@ -16,7 +17,7 @@ const deDuplicateMessages = (messages) => {
  	return uniqueMessages
 }
 
-const sortMessages = (messages, order) => {
+const sortMessagesTemp = (messages, order) => {
 	let sortedMessages
 	if(order === 'newest'){
 		console.log("Newest Selected")
@@ -33,19 +34,6 @@ const sortMessages = (messages, order) => {
 }
 
 
-const sortMessagesTemp = (messages, order) => {
-	let sortedMessages
-	if(order === 'newest'){
-  		sortedMessages = messages.sort((a, b) => {
-  		return (a.content) - (b.content)
-		});
-	} else if(order === 'oldest'){
-  		sortedMessages = messages.sort((a, b) => {
-  		return (b.content) - (a.content) 
-		});
-	}
-	return sortedMessages
-}
 
 const getMessagesToDisplay = (messages, order) => {
 	const uniqueMessages = deDuplicateMessages(messages);
@@ -71,7 +59,6 @@ export class Body extends Component {
   }
   
   addMoreMessagesToList = () => {
-  	console.log("Adding...")
   	let startingIndex = this.state.nextIndextoGrabFrom
   	this.setState({nextIndextoGrabFrom: startingIndex + 5})
   }
@@ -86,12 +73,10 @@ export class Body extends Component {
 		let reversedMessages = [...this.state.messages]
 		reversedMessages.reverse()
 		let currentMessages = reversedMessages.slice(0, this.state.nextIndextoGrabFrom).reverse()
-		console.log("Rendering")
 
 		return (
 			<>
 				<Sorter changeOrder={this.onSortSelected}/>
-				<button onClick={this.addMoreMessagesToList}></button>
 				<Messages scrolledToEnd={this.addMoreMessagesToList} messages={currentMessages} deleting={this.onDeleteButtonClicked}/>
 			</>
 		)

@@ -1,13 +1,17 @@
 .header-container {
-	height: 50px;
+	width: 100%;	
 }
 
 .header-container .logo {
-	width: 80px;
-	height: 100%;
+	padding-top: 2.5rem;
+  padding-left: 4rem;
 }
 
 .header-container h1 {
 	color: #1C4B81;
 	font-size: 20px;
+}
+
+.logo-container {
+	width: 12rem;
 }

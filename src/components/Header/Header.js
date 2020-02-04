@@ -1,12 +1,13 @@
 import React from 'react';
-import logo from '../../assets/images/logo.png'
+import logo from '../../assets/images/Logo.svg'
 import './Header.css'
 
 export const Header = () => {
   return (
     <div className="flex header-container">
-    	<img className="logo" alt="Modern Health Logo" src={logo} />
-      <h1>Modern Health</h1>
+  	   <div className="logo-container">
+    			<img className="logo" alt="Modern Health" src={logo} />
+  	   </div>
     </div>
   );
 }
