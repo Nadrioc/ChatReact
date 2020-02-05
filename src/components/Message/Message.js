@@ -48,8 +48,8 @@ export class Message extends Component {
 	    			<img 
 	    				alt="User Avatar" 
 	    				className="message-avatar" 
-	    				src={`https://api.adorable.io/avatars/262/${this.props.message.uuid}`}/>
-	    			<h1>{this.props.message.uuid}</h1>
+	    				src={`https://api.adorable.io/avatars/262/${this.props.message.senderUuid}`}/>
+	    			<h1>{this.props.message.senderUuid}</h1>
 	      		<p className="message-time">{this.state.dateObject.time}</p>
 	    		</div>
 	      	<p>{this.props.message.content}</p>
