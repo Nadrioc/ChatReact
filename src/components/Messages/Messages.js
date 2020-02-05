@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Message} from '../Message/Message'
-import * as dateHelper from '../../utils/DateHelper'
-import * as scrollHelper from '../../utils/ScrollHelper'
+import * as dateHelper from '../../helpers/DateHelper'
+import * as scrollHelper from '../../helpers/ScrollHelper'
 import './Messages.css'
 
 export class Messages extends Component{
@@ -10,12 +10,19 @@ export class Messages extends Component{
 		lastTopElementId: null,
 	}
 
-	addInfiniteScrollEventListener = (listElement) => {
-		listElement.addEventListener("scroll", () => {
-			if(listElement.scrollTop === 0){
-				this.props.scrolledToEnd()
-			}
-		})
+	scrollEventListener = () => {
+		if(this.listElement.scrollTop === 0){
+			this.props.onScrolledToEnd()
+		}
+	}
+
+	addInfiniteScrollEventListener = () => {
+		this.removeInfiniteScrollEventListener()
+		this.listElement.addEventListener("scroll", this.scrollEventListener)
+	}
+
+	removeInfiniteScrollEventListener = () => {
+		this.listElement.removeEventListener("scroll", this.scrollEventListener)
 	}
 
 	setNewTopElementIdState = () => {
@@ -36,20 +43,23 @@ export class Messages extends Component{
 	}
 
 	componentDidMount = () => {
-		const listElement = document.querySelector("#message-list")
+		this.listElement = document.querySelector("#message-list")
 		this.setNewTopElementIdState()
-		scrollHelper.scrollElementToBottom(listElement)
-		this.addInfiniteScrollEventListener(listElement)
+		scrollHelper.scrollElementToBottom(this.listElement)
+		this.addInfiniteScrollEventListener()
 	}
 
 	componentDidUpdate = (prevProps) => {
 		if(prevProps.order !== this.props.order){
-			const listElement = document.querySelector("#message-list")
-			scrollHelper.scrollElementToBottom(listElement)
+			scrollHelper.scrollElementToBottom(this.listElement)
 		}
 		if(prevProps !== this.props){
 			this.handleInfiniteScrolling(prevProps)
 		}
+	}
+
+	componentWillUnmount = () => {
+		this.removeInfiniteScrollEventListener()
 	}
 
  	render(){

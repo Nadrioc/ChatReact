@@ -1,6 +1,6 @@
 import React, {Fragment, Component} from 'react';
 import './Message.css';
-import * as dateHelper from '../../utils/DateHelper';
+import * as dateHelper from '../../helpers/DateHelper';
 import cross from '../../assets/images/Delete.svg';
 
 export class Message extends Component {
@@ -13,16 +13,17 @@ export class Message extends Component {
 	hoverStyle = {}
 
 	toggleHover = (status) => {
-		let newHoverStatus = this.state.hovering
-		if(status === 'show'){
-			newHoverStatus = true
-			this.setState({hovering: newHoverStatus})
-		}if(status === 'hide') {
-			newHoverStatus = false
-			this.setState({hovering: newHoverStatus})
-		}
+		this.setState({hovering: status})
 	}	
 	
+	onMouseOver = () => {
+		this.toggleHover(true)
+	}
+
+	onMouseLeave = () => {
+		this.toggleHover(false)
+	}
+
 	render(){
 
 		if(!this.state.hovering){
@@ -35,20 +36,21 @@ export class Message extends Component {
 			} 
 		}
 
-		let messageLayout = () => {
+		let dateLayout 
+
 		if(this.props.dayChange === 'true'){
-			return (
+			dateLayout = (
 				<div className="date-container">
 					<h3>{this.state.messageDate.formattedDay}</h3>
 					<hr className="dotted-line"></hr>
-				</div>)			   
+				</div>
+			)			   
 		}
-	}
 
 	 return (
   	<Fragment>
-  		<div id={this.props.id} className="message-container" onMouseOver={() => this.toggleHover('show')} onMouseLeave={() => this.toggleHover('hide')}>
-	    	{messageLayout()}
+  		<div id={this.props.id} className="message-container" onMouseOver={this.onMouseOver} onMouseLeave={this.onMouseLeave}>
+	    	{dateLayout}
 	    	<div className="message-container-center">
 	    		<div className="flex center-align-items">
 	    			<img alt="User Avatar" className="avatar" src={`https://api.adorable.io/avatars/262/${this.props.message.uuid}`}/>

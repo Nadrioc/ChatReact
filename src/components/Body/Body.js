@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Messages} from '../Messages/Messages'
 import {Sorter} from '../Sorter/Sorter'
 import {messages} from '../../data/data.json'
-import * as messageHelper from '../../utils/MessagesHelper'
+import * as messageHelper from '../../helpers/MessagesHelper'
 
 export class Body extends Component {
 
@@ -34,12 +34,12 @@ export class Body extends Component {
 
 	render(){
   
-	const currentMessages = messageHelper.appendAndReverseMessageList(this.state.messages, this.state.nextIndextoGrabFrom)
+	  const currentMessages = messageHelper.appendAndReverseMessageList(this.state.messages, this.state.nextIndextoGrabFrom)
 
 		return (
 			<>
 				<Sorter changeOrder={this.onSortSelected} order={this.state.order}/>
-				<Messages scrolledToEnd={this.addMoreMessagesToList} order={this.state.order} messages={currentMessages} deleting={this.onDeleteButtonClicked}/>
+				<Messages onScrolledToEnd={this.addMoreMessagesToList} order={this.state.order} messages={currentMessages} deleting={this.onDeleteButtonClicked}/>
 			</>
 		)
 	}
