@@ -1,4 +1,4 @@
-import React, {Fragment, Component} from 'react';
+import React, {Component} from 'react';
 import './Message.css';
 import * as dateHelper from '../../helpers/DateHelper';
 import cross from '../../assets/images/Delete.svg';
@@ -6,66 +6,58 @@ import cross from '../../assets/images/Delete.svg';
 export class Message extends Component {
 
 	state = {
-		messageDate: dateHelper.convertSentAtToDateTimeObject(this.props.message.sentAt),
+		dateObject: dateHelper.convertSentAtToDateTimeObject(this.props.message.sentAt),
 		hovering: false
 	}
 
-	hoverStyle = {}
-
 	toggleHover = (status) => {
-		this.setState({hovering: status})
+		this.setState({hovering: status});
 	}	
 	
 	onMouseOver = () => {
-		this.toggleHover(true)
+		this.toggleHover(true);
 	}
 
 	onMouseLeave = () => {
-		this.toggleHover(false)
+		this.toggleHover(false);
 	}
 
 	render(){
-
-		if(!this.state.hovering){
-			this.hoverStyle = {
-				'display': 'none'
-			} 
-		} else {
-			this.hoverStyle = {
-				'display': 'block'
-			} 
+		
+		let hoverClass = "hidden";
+		if(this.state.hovering){
+			hoverClass = "";
 		}
 
-		let dateLayout 
-
+		let dateLayout;
 		if(this.props.dayChange === 'true'){
 			dateLayout = (
-				<div className="date-container">
-					<h3>{this.state.messageDate.formattedDay}</h3>
-					<hr className="dotted-line"></hr>
+				<div className="message-date-container flex">
+					<h3>{this.state.dateObject.formattedDay}</h3>
+					<hr className="message-dotted-line full-width"></hr>
 				</div>
 			)			   
 		}
 
-	 return (
-  	<Fragment>
-  		<div id={this.props.id} className="message-container" onMouseOver={this.onMouseOver} onMouseLeave={this.onMouseLeave}>
+ 		return (
+  		<div 
+  			id={this.props.id} className="full-width" onMouseOver={this.onMouseOver} onMouseLeave={this.onMouseLeave}>
 	    	{dateLayout}
-	    	<div className="message-container-center">
+	    	<div className="message-content-container">
 	    		<div className="flex center-align-items">
-	    			<img alt="User Avatar" className="avatar" src={`https://api.adorable.io/avatars/262/${this.props.message.uuid}`}/>
+	    			<img 
+	    				alt="User Avatar" 
+	    				className="message-avatar" 
+	    				src={`https://api.adorable.io/avatars/262/${this.props.message.uuid}`}/>
 	    			<h1>{this.props.message.uuid}</h1>
-	      		<p style={{'fontWeight': '300', 'fontSize': '13px'}}>{this.state.messageDate.time}</p>
+	      		<p className="message-time">{this.state.dateObject.time}</p>
 	    		</div>
 	      	<p>{this.props.message.content}</p>
-	      	<div onClick={() => this.props.deleting(this.props.uniqueKey)} className="delete-button" style={this.hoverStyle}>
+	      	<div onClick={() => this.props.deleting(this.props.uniqueKey)} className={`message-delete-button ${hoverClass}`}>
 	      		<img alt="Delete Button" src={cross} />
   				</div>
 	    	</div>
 	    </div>
-    </Fragment>
-  );
-	
+  	);
 	}
-
 }

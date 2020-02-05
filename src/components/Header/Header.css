@@ -1,17 +1,8 @@
-.header-container {
-	width: 100%;	
+.header-logo-container {
+	width: 12rem;
 }
 
-.header-container .logo {
+.header-logo {
 	padding-top: 2.5rem;
   padding-left: 4rem;
-}
-
-.header-container h1 {
-	color: #1C4B81;
-	font-size: 20px;
-}
-
-.logo-container {
-	width: 12rem;
 }

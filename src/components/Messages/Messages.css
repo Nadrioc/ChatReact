@@ -1,13 +1,15 @@
-.messages-container {
-	height: 70vh;
-	overflow: scroll;
+.messages-main-container {
+	margin-left: 5vw;
+	width: 90vw;
 }
 
 .messages-header {
 	font-weight: 500;
 }
 
-.main-container {
-	margin-left: 5vw;
-	width: 90vw;
+.messages-container {
+	height: 70vh;
+	overflow: scroll;
 }
+
+

@@ -1,8 +1,20 @@
-.message-container {
-	width: 100%;
+.message-date-container {
+	padding: 5px;
+	height: 20px;
 }
 
-.message-container-center{
+.message-date-container h3{
+	font-weight: 300;
+	font-size: 0.9rem;
+}
+
+.message-dotted-line {
+	height: 0%;
+	margin-top: 24px;
+	border: 0.5px dashed #CCCCCC;
+}
+
+.message-content-container{
 	width: 75%;
 	margin: auto;
 	margin-left: 256px;
@@ -10,47 +22,28 @@
 	position: relative;
 }
 
-.message-container-center h1{
+.message-content-container h1{
 	font-weight: 800;
 	font-size: 20px;
 	margin-right: 15px;
 }
 
-.avatar {
+.message-avatar {
 	height: 30px;
 	border-radius: 16%;
 	margin-right: 15px;
 }
 
-.delete-button {
+.message-time {
+	font-weight: 300;
+	font-size: 13px;
+}
+
+.message-delete-button {
 	width: 25px;
 	cursor: pointer;
 	position: absolute;
   top: 50%;
-  left: 60vw;
+  right: 10vw;
 }
 
-.delete-button-container {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-}
-
-.date-container {
-	padding: 5px;
-	display: flex;
-	height: 20px;
-}
-
-.date-container h3{
-	font-weight: 300;
-	font-size: 0.9rem;
-
-}
-
-.dotted-line {
-	width: 100%;
-	height: 0%;
-	margin-top: 24px;
-	border: 0.5px dashed #CCCCCC;
-}

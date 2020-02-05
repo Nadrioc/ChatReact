@@ -1,12 +1,9 @@
-.sorter {
-    display: flex;
+.sorter-container {
     justify-content: flex-end;
-    align-items: center;
     margin-right: 50px;
-
 }
 
-.sorter h3{
+.sorter-container h3{
     font-weight: 300;
     font-size: 1rem;
 }
@@ -18,7 +15,6 @@
     font-family: 'Avenir', sans-serif;
     font-weight: 300;
     text-decoration: underline;
-/*    -moz-appearance: none;*/
 }
 
 .sorter-select:focus {

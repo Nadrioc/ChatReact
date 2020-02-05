@@ -8,10 +8,18 @@ body {
 	display: flex;
 }
 
-.space-between {
-	justify-content: space-between;
+.justify-center {
+	justify-content: center;
 }
 
 .center-align-items {
 	align-items: center;
+}
+
+.full-width { 
+	width: 100%;
+}
+
+.hidden {
+	display: none;
 }
